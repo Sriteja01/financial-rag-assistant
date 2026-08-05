@@ -1,0 +1,10 @@
+Statement Type,Line Item,Value,Quarter,Report Date,Currency,Business Unit
+Income Statement,Revenue,$2.15M,Q1 2024,2024-03-31,USD,Retail
+Income Statement,Revenue,$2.40M,Q2 2024,2024-06-30,USD,Retail
+Income Statement,Net Income,$450K,Q1 2024,2024-03-31,USD,Retail
+Balance Sheet,Cash,$1.20M,Q1 2024,2024-03-31,USD,Retail
+Income Statement,Operating Expenses,$1.10M,Q1 2024,2024-03-31,USD,Retail
+Balance Sheet,Total Assets,$8.50M,Q1 2024,2024-03-31,USD,Retail
+Income Statement,Revenue,$1.05M,Q1 2024,2024-03-31,USD,Corporate
+Income Statement,Net Income,$180K,Q1 2024,2024-03-31,USD,Corporate
+Income Statement,Gross Profit,$1.40M,Q1 2024,2024-03-31,USD,Retail

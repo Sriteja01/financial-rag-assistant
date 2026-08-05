@@ -1,0 +1,50 @@
+[
+  {
+    "question": "What was Retail revenue in Q1 2024?",
+    "expected_answer_terms": ["Retail", "2.15 million", "Q1 2024"],
+    "expected_source_ids": ["financials.csv:2"],
+    "forbidden_answer_terms": ["2.40 million", "Q2 2024"]
+  },
+  {
+    "question": "What was Retail net income in Q1 2024?",
+    "expected_answer_terms": ["450", "thousand", "Q1 2024"],
+    "expected_source_ids": ["financials.csv:4"],
+    "forbidden_answer_terms": ["180", "Corporate"]
+  },
+  {
+    "question": "How much cash did Retail report in Q1 2024?",
+    "expected_answer_terms": ["1.20 million", "Cash"],
+    "expected_source_ids": ["financials.csv:5"],
+    "forbidden_answer_terms": ["8.50 million"]
+  },
+  {
+    "question": "What were Retail operating expenses in Q1 2024?",
+    "expected_answer_terms": ["1.10 million", "Operating Expenses"],
+    "expected_source_ids": ["financials.csv:6"],
+    "forbidden_answer_terms": ["Gross Profit"]
+  },
+  {
+    "question": "What were Retail total assets in Q1 2024?",
+    "expected_answer_terms": ["8.50 million", "Total Assets"],
+    "expected_source_ids": ["financials.csv:7"],
+    "forbidden_answer_terms": ["1.20 million"]
+  },
+  {
+    "question": "What was Corporate revenue in Q1 2024?",
+    "expected_answer_terms": ["Corporate", "1.05 million"],
+    "expected_source_ids": ["financials.csv:8"],
+    "forbidden_answer_terms": ["Retail", "2.15 million"]
+  },
+  {
+    "question": "What was Corporate net income in Q1 2024?",
+    "expected_answer_terms": ["Corporate", "180", "thousand"],
+    "expected_source_ids": ["financials.csv:9"],
+    "forbidden_answer_terms": ["450", "Retail"]
+  },
+  {
+    "question": "What was Retail gross profit in Q1 2024?",
+    "expected_answer_terms": ["Gross Profit", "1.40 million"],
+    "expected_source_ids": ["financials.csv:10"],
+    "forbidden_answer_terms": ["Operating Expenses"]
+  }
+]

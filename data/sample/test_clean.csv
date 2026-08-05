@@ -1,0 +1,6 @@
+company_name,fiscal_year,metric,value,currency,statement_type,notes
+Acme Corp,2023,Total Revenue,19200000.00,USD,Income Statement,Audited revenue for FY2023
+Acme Corp,2023,Cost of Goods Sold,10500000.00,USD,Income Statement,Direct production costs
+Acme Corp,2023,Operating Expenses,3900000.00,USD,Income Statement,Includes R&D and SG&A
+Acme Corp,2023,Net Income,4800000.00,USD,Income Statement,Final net earnings after tax
+Starlight Media,2023,Total Revenue,11000000.00,USD,Income Statement,Subscription & ad revenue
