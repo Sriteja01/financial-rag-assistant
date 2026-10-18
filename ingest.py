@@ -30,6 +30,7 @@ CANONICAL_COLUMN_ALIASES = {
         "statement_type",
         "financial_statement",
         "report_type",
+        "category",
     },
     "metric": {
         "metric",
@@ -37,7 +38,6 @@ CANONICAL_COLUMN_ALIASES = {
         "account",
         "account_name",
         "description",
-        "category",
     },
     "amount": {
         "amount",
@@ -50,6 +50,7 @@ CANONICAL_COLUMN_ALIASES = {
         "quarter",
         "fiscal_period",
         "reporting_period",
+        "year",
     },
     "date": {
         "date",
@@ -65,6 +66,7 @@ CANONICAL_COLUMN_ALIASES = {
     "business_unit": {
         "business_unit",
         "business",
+        "company",
         "division",
         "segment",
         "department",
@@ -196,12 +198,67 @@ class FinancialDataIngestor:
                 f"{duplicate_columns.tolist()}"
             )
 
+        if not self.required_columns.issubset(prepared.columns):
+            prepared = self.reshape_wide_dataframe(prepared, source_file)
+
         self.validate_schema(prepared, source_file)
 
         prepared["source_file"] = source_file
-        prepared["source_row"] = prepared.index + 2
+        if "source_row" not in prepared.columns:
+            prepared["source_row"] = prepared.index + 2
 
         return prepared
+
+    def reshape_wide_dataframe(
+        self,
+        dataframe: pd.DataFrame,
+        source_file: str,
+    ) -> pd.DataFrame:
+        """Convert arbitrary wide financial tables into metric/value rows."""
+        canonical_metadata = {
+            "statement_type",
+            "period",
+            "date",
+            "currency",
+            "business_unit",
+        }
+        measure_columns = [
+            column
+            for column in dataframe.columns
+            if column not in canonical_metadata
+            and dataframe[column].map(parse_currency_amount).notna().any()
+        ]
+
+        if not measure_columns:
+            return dataframe
+
+        source_rows = pd.Series(
+            dataframe.index + 2,
+            index=dataframe.index,
+            name="_source_row",
+        )
+        dataframe = dataframe.assign(_source_row=source_rows)
+        identifier_columns = [
+            column
+            for column in dataframe.columns
+            if column not in measure_columns
+        ]
+        reshaped = dataframe.melt(
+            id_vars=identifier_columns,
+            value_vars=measure_columns,
+            var_name="metric",
+            value_name="amount",
+        )
+        reshaped = reshaped.dropna(subset=["amount"])
+        reshaped["source_row"] = reshaped.pop("_source_row")
+
+        logger.info(
+            "Reshaped wide source %s: %d measure columns into %d records.",
+            source_file,
+            len(measure_columns),
+            len(reshaped),
+        )
+        return reshaped
 
     def clean_dataframe(
         self,

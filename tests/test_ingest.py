@@ -18,6 +18,8 @@ def test_map_to_canonical_column():
     assert map_to_canonical_column("Line Item") == "metric"
     assert map_to_canonical_column("Value") == "amount"
     assert map_to_canonical_column("Quarter") == "period"
+    assert map_to_canonical_column("Category") == "statement_type"
+    assert map_to_canonical_column("Description") == "metric"
 
 
 @pytest.mark.parametrize(
@@ -107,6 +109,39 @@ def test_load_file_reads_csv(tmp_path):
     assert len(result) == 1
     assert result.loc[0, "metric"] == "Revenue"
     assert result.loc[0, "amount"] == 2_150_000.0
+
+
+def test_load_file_accepts_category_and_description_csv(tmp_path):
+    csv_file = tmp_path / "financial_document_sample.csv"
+    csv_file.write_text(
+        "Date,Category,Description,Amount\n"
+        "2026-01-02,Revenue,Product Sales,15000.0\n",
+        encoding="utf-8",
+    )
+
+    result = FinancialDataIngestor().load_file(csv_file)
+
+    assert result.loc[0, "statement_type"] == "Revenue"
+    assert result.loc[0, "metric"] == "Product Sales"
+    assert result.loc[0, "amount"] == 15_000.0
+
+
+def test_load_file_reshapes_company_specific_wide_csv(tmp_path):
+    csv_file = tmp_path / "company_statement.csv"
+    csv_file.write_text(
+        "Company,Year,Revenue,Expenses,Net Profit\n"
+        "Acme,2025,100000,40000,60000\n",
+        encoding="utf-8",
+    )
+
+    result = FinancialDataIngestor().load_file(csv_file)
+
+    assert len(result) == 3
+    assert set(result["metric"]) == {"revenue", "expenses", "net_profit"}
+    assert set(result["business_unit"]) == {"Acme"}
+    assert set(result["period"]) == {"2025"}
+    assert set(result["amount"]) == {100_000.0, 40_000.0, 60_000.0}
+    assert set(result["source_row"]) == {2}
 
 
 def test_load_many_merges_multiple_financial_files(tmp_path):

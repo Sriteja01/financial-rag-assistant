@@ -142,10 +142,22 @@ Revenue,2150000,Q1 2024,Retail
 Net Income,450000,Q1 2024,Retail
 ```
 
+Company-specific wide-format files are also supported. For example:
+
+```csv
+Company,Year,Revenue,Expenses,Net Profit
+Acme,2025,100000,40000,60000
+```
+
+The app treats each numeric financial column as a separate metric and keeps
+company and year as searchable context. It does not require a fixed template,
+but each uploaded table must contain at least one numeric financial measure.
+
 Common column aliases are supported, including:
 
 ```text
 Line Item / Account / Description → metric
+Category → statement_type
 Value / Amount / Balance → amount
 Quarter / Period → period
 Report Date / Date → date
@@ -195,3 +207,7 @@ Generated evaluation CSV files are stored locally in `data/processed/`.
 - Retrieval reranking
 - Larger real-world labeled evaluation datasets
 - Docker deployment
+
+## License
+
+This project is licensed under the MIT License.
