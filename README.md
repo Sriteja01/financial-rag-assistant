@@ -207,7 +207,3 @@ Generated evaluation CSV files are stored locally in `data/processed/`.
 - Retrieval reranking
 - Larger real-world labeled evaluation datasets
 - Docker deployment
-
-## License
-
-This project is licensed under the MIT License.
